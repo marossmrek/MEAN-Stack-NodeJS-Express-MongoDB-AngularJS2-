@@ -22,9 +22,11 @@
 	          </ul>
 
 	          <ul class="nav navbar-nav navbar-right">
-				<li><a routerLink="/login" routerLinkActive="active">Login</a><li>
-				<li><a href="#" (click)="logout()">Logout</a></li>
-				<li><a routerLink="/register" routerLinkActive="active">Register</a></li>
+			    <li><a *ngIf="authService.loggedIn()" routerLink="/dashboard" routerLinkActive="active">Dashboard</a><li>
+			    <li><a *ngIf="authService.loggedIn()" routerLink="/profile" routerLinkActive="active">Profile</a><li>
+			    <li><a *ngIf="!authService.loggedIn()"routerLink="/login" routerLinkActive="active">Login</a><li>
+				<li><a  *ngIf="authService.loggedIn()" href="#" (click)="logout()">Logout</a></li>
+				<li><a  *ngIf="!authService.loggedIn()"routerLink="/register" routerLinkActive="active">Register</a></li>
 	          </ul>
 
 	        </div>
