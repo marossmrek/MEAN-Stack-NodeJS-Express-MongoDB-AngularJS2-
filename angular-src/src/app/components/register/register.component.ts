@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ValidateService } from '../../services/validate.service';
 import {FlashMessagesService} from 'angular2-flash-messages';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -9,9 +11,10 @@ import {FlashMessagesService} from 'angular2-flash-messages';
 })
 export class RegisterComponent {
 
-  constructor(private validateS : ValidateService, private flashMessage:FlashMessagesService ){
-
-  }
+  constructor(private validateS : ValidateService, 
+              private flashMessage:FlashMessagesService, 
+              private authService:AuthService,
+              private router : Router ){}
 
   name: String;
   username: String;
@@ -36,6 +39,18 @@ export class RegisterComponent {
   		this.flashMessage.show("Wrong email", {cssClass:"alert-danger", timeout:3000});
   		return false;
   	};
+
+    this.authService.registerUser(user).subscribe( data => {
+
+      if(data.success){
+        this.flashMessage.show("Registration success", {cssClass:"alert-success", timeout:3000});
+        this.router.navigate(['/login']);
+      } else{
+        this.flashMessage.show("Something wrong", {cssClass:"alert-danger", timeout:3000});
+        this.router.navigate(['/register']);
+      }
+
+    });
 
   }
 
